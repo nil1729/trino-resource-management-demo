@@ -1,4 +1,4 @@
 etl:trino.admin
-adhoc:TOMCATYARN
 analytics:superset.admin
-external:F20190013P_ALUMNI
+finance:F20190013P_ALUMNI
+adhoc:NILANJAN172NSVIAN

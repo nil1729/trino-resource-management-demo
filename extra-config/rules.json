@@ -1,0 +1,23 @@
+{
+  "catalogs": [
+    {
+      "group": "finance",
+      "catalog": "tpch",
+      "allow": true
+    },
+    {
+      "group": "analytics",
+      "catalog": "tpcds|tpch",
+      "allow": true
+    },
+    {
+      "user": "trino.admin",
+      "catalog": ".*",
+      "allow": "all"
+    },
+    {
+      "catalog": "system",
+      "allow": "none"
+    }
+  ]
+}
