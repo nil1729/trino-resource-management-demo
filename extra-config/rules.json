@@ -6,7 +6,7 @@
       "allow": true
     },
     {
-      "group": "analytics",
+      "group": "analytics|etl",
       "catalog": "tpcds|tpch",
       "allow": true
     },

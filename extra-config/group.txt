@@ -1,4 +1,4 @@
-etl:trino.admin
+etl:trino.etl
 analytics:superset.admin
 finance:F20190013P_ALUMNI
-adhoc:NILANJAN172NSVIAN
+adhoc:NILANJAN172NSVIAN,trino.headless
