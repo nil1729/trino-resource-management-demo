@@ -10,6 +10,7 @@ services:
     volumes:
       - ${PWD}/coordinator/config.properties:/etc/trino/config.properties:ro
       - ${PWD}/coordinator/password-authenticator.properties:/etc/trino/password-authenticator.properties:ro
+      - ${PWD}/coordinator/group-provider.properties:/etc/trino/group-provider.properties:ro
       - ${PWD}/extra-config:/etc/extra/trino-config:ro
     networks:
       trino-internal:
