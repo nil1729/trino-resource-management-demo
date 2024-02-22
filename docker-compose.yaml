@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  trino-coordinator:
+    image: trinodb/trino:433
+    container_name: trino-coordinator
+    hostname: trino-coordinator
+    ports:
+      - '8888:8080'
+    volumes:
+      - ${PWD}/coordinator/config.properties:/etc/trino/config.properties:ro
+      - ${PWD}/coordinator/password-authenticator.properties:/etc/trino/password-authenticator.properties:ro
+      - ${PWD}/extra-config:/etc/extra/trino-config:ro
+    networks:
+      trino-internal:
+        ipv4_address: ${TRINO_IP}
+    environment:
+      - TRINO_SHARED_SECRET=${TRINO_SHARED_SECRET}
+      - GOOGLE_OAUTH2_CLIENT_ID=${GOOGLE_OAUTH2_CLIENT_ID}
+      - GOOGLE_OAUTH2_CLIENT_SECRET=${GOOGLE_OAUTH2_CLIENT_SECRET}
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          "curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/v1/status | grep '200'",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  trino-worker:
+    image: trinodb/trino:433
+    depends_on:
+      trino-coordinator:
+        condition: service_healthy
+    deploy:
+      replicas: 1
+    environment:
+      - TRINO_SHARED_SECRET=${TRINO_SHARED_SECRET}
+    volumes:
+      - ${PWD}/worker/config.properties:/etc/trino/config.properties:ro
+    networks:
+      - trino-internal
+
+  cloudflare:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflare
+    hostname: cloudflare
+    networks:
+      - trino-internal
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TOKEN}
+    environment:
+      - CLOUDFLARE_TOKEN=${CLOUDFLARE_TOKEN}
+
+networks:
+  trino-internal:
+    ipam:
+      driver: default
+      config:
+        - subnet: ${TRINO_SUBNET}
