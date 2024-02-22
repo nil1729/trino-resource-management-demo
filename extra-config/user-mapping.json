@@ -1,0 +1,17 @@
+{
+  "rules": [
+    {
+      "pattern": "nilanjan172nsvian@gmail.com",
+      "allow": false
+    },
+    {
+      "pattern": "(?<user>.+)@(?<campus>.+).bits-pilani.ac.in",
+      "user": "${user}_${campus}",
+      "case": "upper"
+    },
+    {
+      "pattern": "(.*)@gmail.com",
+      "case": "upper"
+    }
+  ]
+}
