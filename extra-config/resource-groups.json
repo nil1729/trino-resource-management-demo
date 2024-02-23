@@ -18,8 +18,8 @@
     {
       "name": "analytics-read",
       "softMemoryLimit": "100%",
-      "hardConcurrencyLimit": 2,
-      "maxQueued": 5,
+      "hardConcurrencyLimit": 1,
+      "maxQueued": 2,
       "jmxExport": true
     },
     {
